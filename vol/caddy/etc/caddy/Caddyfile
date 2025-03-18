@@ -1,0 +1,3 @@
+outline.example.com {
+    reverse_proxy outline-app:3000
+}
