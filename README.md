@@ -22,21 +22,7 @@ Key service:
 
 The Caddy container is connected to the `caddy-universe` network for public access. Additional networks (e.g., `caddy-outline`, `caddy-git`) can be attached for private communication with backend services.
 
-### 3. Create Docker Networks
-
-Before starting the Caddy service, create the required Docker networks. Example:
-
-```
-docker network create --driver bridge caddy-universe
-```
-
-For backend services, you may create additional isolated networks:
-
-```
-docker network create --internal --driver bridge caddy-outline
-```
-
-### 4. Configure Caddyfile
+### 3. Configure Caddyfile
 
 The Caddyfile is located at `./vol/caddy/etc/caddy/Caddyfile`.
 
@@ -54,7 +40,7 @@ outline.example.com {
 
 You can add multiple sites by repeating the block for different services.
 
-### 5. Start the Caddy Service
+### 4. Start the Caddy Service
 
 ```
 docker compose up -d
@@ -62,7 +48,7 @@ docker compose up -d
 
 This will start Caddy and make your configured domains available.
 
-### 6. Verify Running Containers
+### 5. Verify Running Containers
 
 ```
 docker compose ps
@@ -70,7 +56,7 @@ docker compose ps
 
 You should see the `caddy` container running.
 
-### 7. Persistent Data Storage
+### 6. Persistent Data Storage
 
 Caddy stores ACME certificates, account keys, and other important data in the following volumes:
 
