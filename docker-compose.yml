@@ -26,3 +26,7 @@ networks:
   caddy-universe:
     name: caddy-universe
     driver: bridge
+
+  caddy-outline:
+    name: caddy-outline
+    external: true
