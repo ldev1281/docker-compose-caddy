@@ -19,6 +19,21 @@ services:
     networks:
       - caddy-universe
       - caddy-outline
+      - caddy-frp
+
+  frp-client:
+    image: ghcr.io/ldev1281/docker-frp:latest
+    container_name: frp-client
+    restart: unless-stopped
+
+    environment:
+      FRP_HOST: ${FRP_HOST}
+      FRP_PORT: ${FRP_PORT}
+      FRP_TOKEN: ${FRP_TOKEN}
+
+    networks:
+      - frp-universe
+      - caddy-frp
 
 
 
@@ -31,3 +46,11 @@ networks:
   caddy-outline:
     name: caddy-outline
     external: true
+
+  caddy-frp:
+    name: caddy-frp
+    external: true
+
+  frp-universe:
+    name: frp-universe
+    driver: bridge
