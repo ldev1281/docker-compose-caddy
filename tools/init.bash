@@ -7,14 +7,14 @@ ENV_FILE="${SCRIPT_DIR}/../.env"
 VOL_DIR="${SCRIPT_DIR}/../vol/"
 
 # -------------------------------------
-# frp-client setup script
+# Caddy setup script
 # -------------------------------------
 
 FRP_VERSION=0.62.1
 
 # Generate secure random defaults
 generate_defaults() {
-    TOKEN=$(openssl rand -hex 32)
+    _FRP_TOKEN=$(openssl rand -hex 32)
 }
 
 # Load existing configuration from .env file
@@ -37,8 +37,8 @@ prompt_for_configuration() {
     read -p "FRP_PORT [${FRP_PORT:-7000}]: " input
     FRP_PORT=${input:-${FRP_PORT:-7000}}
 
-    read -p "FRP_TOKEN [${FRP_TOKEN:-$TOKEN}]: " input
-    FRP_TOKEN=${input:-${FRP_TOKEN:-$TOKEN}}
+    read -p "FRP_TOKEN [${FRP_TOKEN:-$_FRP_TOKEN}]: " input
+    FRP_TOKEN=${input:-${FRP_TOKEN:-$_FRP_TOKEN}}
 }
 
 
