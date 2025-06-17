@@ -19,7 +19,6 @@ services:
       - OUTLINE_APP_PORT
 
     volumes:
-      - ./conf.d:/conf.d:ro
       - ./usr/local/bin/caddy-entrypoint.sh:/usr/local/bin/caddy-entrypoint.sh:ro
       - ./vol/caddy/data:/data
       - ./vol/caddy/config:/config
