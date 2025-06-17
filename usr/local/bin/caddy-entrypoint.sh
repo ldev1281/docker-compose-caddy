@@ -15,7 +15,16 @@ if [ -n "$KEYCLOAK_APP_HOSTNAME" ]; then
     export KEYCLOAK_APP_HTTP_PORT="${KEYCLOAK_APP_HTTP_PORT:-8080}"
     export KEYCLOAK_APP_HTTPS_PORT="${KEYCLOAK_APP_HTTPS_PORT:-8443}"
 
-    envsubst '${KEYCLOAK_APP_HOSTNAME} ${KEYCLOAK_APP_HOST} ${KEYCLOAK_APP_HTTP_PORT} ${KEYCLOAK_APP_HTTPS_PORT}' </conf.d/keycloak.conf >>/etc/caddy/Caddyfile
+    {
+        echo "http://${KEYCLOAK_APP_HOSTNAME} {"
+        echo "    reverse_proxy ${KEYCLOAK_APP_HOST}:${KEYCLOAK_APP_HTTP_PORT}"
+        echo "}"
+
+        echo "https://${KEYCLOAK_APP_HOSTNAME} {"
+        echo "    reverse_proxy ${KEYCLOAK_APP_HOST}:${KEYCLOAK_APP_HTTPS_PORT}"
+        echo "}"
+    } >>/etc/caddy/Caddyfile
+
     echo "" >>/etc/caddy/Caddyfile
 else
     echo "[ ] Skipping Keycloak — KEYCLOAK_APP_HOSTNAME is not set"
@@ -29,7 +38,12 @@ if [ -n "$OUTLINE_APP_HOSTNAME" ]; then
     export OUTLINE_APP_HOST="${OUTLINE_APP_HOST:-127.0.0.1}"
     export OUTLINE_APP_PORT="${OUTLINE_APP_PORT:-3000}"
 
-    envsubst '${OUTLINE_APP_HOSTNAME} ${OUTLINE_APP_HOST} ${OUTLINE_APP_PORT}' </conf.d/outline.conf >>/etc/caddy/Caddyfile
+    {
+        echo "http://${OUTLINE_APP_HOSTNAME} {"
+        echo "    reverse_proxy ${OUTLINE_APP_HOST}:${OUTLINE_APP_PORT}"
+        echo "}"
+    } >>/etc/caddy/Caddyfile
+    
     echo "" >>/etc/caddy/Caddyfile
 else
     echo "[ ] Skipping Outline — OUTLINE_APP_HOSTNAME is not set"
@@ -40,10 +54,12 @@ if [ ! -s /etc/caddy/Caddyfile ]; then
     echo "# Default response auto-generated config" >>/etc/caddy/Caddyfile
     {
         echo ":80 {"
-        echo "    respond "Caddy is running, but no services are configured." 200"
+        echo "    respond \"Caddy is running, but no services are configured.\" 200"
         echo "}"
-    } >/etc/caddy/Caddyfile
+    } >>/etc/caddy/Caddyfile
 fi
 
 echo "[✓] Final Caddyfile generated:"
 cat /etc/caddy/Caddyfile
+
+exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile

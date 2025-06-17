@@ -1,6 +1,7 @@
 services:
   caddy:
     image: caddy:latest
+    entrypoint: ["/usr/local/bin/caddy-entrypoint.sh"]
     container_name: caddy
     restart: unless-stopped
 
@@ -8,20 +9,20 @@ services:
       - "80:80"
       - "443:443"
 
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
+    environment:
+      - KEYCLOAK_APP_HOSTNAME
+      - KEYCLOAK_APP_HOST
+      - KEYCLOAK_APP_HTTP_PORT
+      - KEYCLOAK_APP_HTTPS_PORT
+      - OUTLINE_APP_HOSTNAME
+      - OUTLINE_APP_HOST
+      - OUTLINE_APP_PORT
 
     volumes:
       - ./conf.d:/conf.d:ro
-      - ./usr/local/bin/generate-caddyfile.sh:/usr/local/bin/generate-caddyfile.sh:ro
+      - ./usr/local/bin/caddy-entrypoint.sh:/usr/local/bin/caddy-entrypoint.sh:ro
       - ./vol/caddy/data:/data
       - ./vol/caddy/config:/config
-
-    command: >
-      /bin/sh -c "/usr/local/bin/generate-caddyfile.sh && exec \"$0\" \"$@\""
 
     networks:
       - caddy-universe
@@ -35,8 +36,7 @@ services:
     restart: unless-stopped
 
     depends_on:
-      caddy:
-        condition: service_healthy
+      - caddy
 
     environment:
       FRP_HOST: ${FRP_HOST}
