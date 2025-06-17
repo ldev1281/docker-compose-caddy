@@ -38,9 +38,13 @@ services:
       - caddy
 
     environment:
-      FRP_HOST: ${FRP_HOST}
-      FRP_PORT: ${FRP_PORT}
-      FRP_TOKEN: ${FRP_TOKEN}
+      - FRP_HOST
+      - FRP_PORT
+      - FRP_TOKEN
+      - FRP_LOCAL_HOST
+      - FRP_REMOTE_HTTP_PORT
+      - FRP_REMOTE_HTTPS_PORT
+      - FRP_LOCAL_HTTPS_PORT
 
     networks:
       - frp-universe
