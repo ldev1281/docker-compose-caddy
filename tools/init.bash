@@ -28,9 +28,9 @@ load_existing_env() {
 prompt_for_configuration() {
     echo "Please enter configuration values (press Enter to keep current/default value):"
     echo ""
-    
+
     echo "frp-client:"
-    
+
     read -p "FRP_HOST [${FRP_HOST:-.onion}]: " input
     FRP_HOST=${input:-${FRP_HOST:-.onion}}
 
@@ -39,8 +39,16 @@ prompt_for_configuration() {
 
     read -p "FRP_TOKEN [${FRP_TOKEN:-$_FRP_TOKEN}]: " input
     FRP_TOKEN=${input:-${FRP_TOKEN:-$_FRP_TOKEN}}
-}
 
+    echo ""
+    echo "keycloak:"
+
+    read -p "KEYCLOAK_APP_HOSTNAME [${KEYCLOAK_APP_HOSTNAME:-auth.example.com}]: " input
+    KEYCLOAK_APP_HOSTNAME=${input:-${KEYCLOAK_APP_HOSTNAME:-auth.example.com}}
+
+    read -p "KEYCLOAK_APP_HOST [${KEYCLOAK_APP_HOST:-127.0.0.1}]: " input
+    KEYCLOAK_APP_HOST=${input:-${KEYCLOAK_APP_HOST:-127.0.0.1}}
+}
 
 # Display configuration nicely and ask for user confirmation
 confirm_and_save_configuration() {
@@ -49,6 +57,10 @@ confirm_and_save_configuration() {
         "FRP_HOST=${FRP_HOST}"
         "FRP_PORT=${FRP_PORT}"
         "FRP_TOKEN=${FRP_TOKEN}"
+        ""
+        "# keycloak"
+        "KEYCLOAK_APP_HOSTNAME=${KEYCLOAK_APP_HOSTNAME}"
+        "KEYCLOAK_APP_HOST=${KEYCLOAK_APP_HOST}"
         ""
     )
 
@@ -61,21 +73,21 @@ confirm_and_save_configuration() {
     done
 
     echo "-----------------------------------------------------"
-    echo "" 
+    echo ""
 
     #
     read -p "Proceed with this configuration? (y/n): " CONFIRM
-    echo "" 
+    echo ""
     if [[ "$CONFIRM" != "y" ]]; then
         echo "Configuration aborted by user."
-        echo "" 
+        echo ""
         exit 1
     fi
 
     #
-    printf "%s\n" "${CONFIG_LINES[@]}" > "$ENV_FILE"
+    printf "%s\n" "${CONFIG_LINES[@]}" >"$ENV_FILE"
     echo ".env file saved to $ENV_FILE"
-    echo "" 
+    echo ""
 }
 
 # Set up containers and initialize the database
