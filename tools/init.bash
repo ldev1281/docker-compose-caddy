@@ -46,8 +46,8 @@ prompt_for_configuration() {
     read -p "KEYCLOAK_APP_HOSTNAME [${KEYCLOAK_APP_HOSTNAME:-auth.example.com}]: " input
     KEYCLOAK_APP_HOSTNAME=${input:-${KEYCLOAK_APP_HOSTNAME:-auth.example.com}}
 
-    read -p "KEYCLOAK_APP_HOST [${KEYCLOAK_APP_HOST:-127.0.0.1}]: " input
-    KEYCLOAK_APP_HOST=${input:-${KEYCLOAK_APP_HOST:-127.0.0.1}}
+    read -p "KEYCLOAK_APP_HOST [${KEYCLOAK_APP_HOST:-keycloak-app}]: " input
+    KEYCLOAK_APP_HOST=${input:-${KEYCLOAK_APP_HOST:-keycloak-app}}
 }
 
 # Display configuration nicely and ask for user confirmation
