@@ -11,7 +11,7 @@ if [ -n "$KEYCLOAK_APP_HOSTNAME" ]; then
     echo "[+] Generating config for Keycloak"
     echo "# Auto-generated Keycloak config" >>/etc/caddy/Caddyfile
 
-    export KEYCLOAK_APP_HOST="${KEYCLOAK_APP_HOST:-127.0.0.1}"
+    export KEYCLOAK_APP_HOST="${KEYCLOAK_APP_HOST:-keycloak-app}"
     export KEYCLOAK_APP_HTTP_PORT="${KEYCLOAK_APP_HTTP_PORT:-8080}"
     export KEYCLOAK_APP_HTTPS_PORT="${KEYCLOAK_APP_HTTPS_PORT:-8443}"
 
@@ -43,7 +43,7 @@ if [ -n "$OUTLINE_APP_HOSTNAME" ]; then
         echo "    reverse_proxy ${OUTLINE_APP_HOST}:${OUTLINE_APP_PORT}"
         echo "}"
     } >>/etc/caddy/Caddyfile
-    
+
     echo "" >>/etc/caddy/Caddyfile
 else
     echo "[ ] Skipping Outline — OUTLINE_APP_HOSTNAME is not set"

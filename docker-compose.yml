@@ -10,13 +10,8 @@ services:
       - "443:443"
 
     environment:
-      - KEYCLOAK_APP_HOSTNAME
-      - KEYCLOAK_APP_HOST
-      - KEYCLOAK_APP_HTTP_PORT
-      - KEYCLOAK_APP_HTTPS_PORT
-      - OUTLINE_APP_HOSTNAME
-      - OUTLINE_APP_HOST
-      - OUTLINE_APP_PORT
+      - KEYCLOAK_APP_HOSTNAME=${KEYCLOAK_APP_HOSTNAME}
+      - KEYCLOAK_APP_HOST=${KEYCLOAK_APP_HOST}
 
     volumes:
       - ./usr/local/bin/caddy-entrypoint.sh:/usr/local/bin/caddy-entrypoint.sh:ro
@@ -38,13 +33,13 @@ services:
       - caddy
 
     environment:
-      - FRP_HOST
-      - FRP_PORT
-      - FRP_TOKEN
-      - FRP_LOCAL_HOST=${FRP_LOCAL_HOST:-caddy}
-      - FRP_REMOTE_HTTP_PORT
-      - FRP_REMOTE_HTTPS_PORT
-      - FRP_LOCAL_HTTPS_PORT
+      - FRP_HOST=${FRP_HOST}
+      - FRP_PORT=${FRP_PORT}
+      - FRP_TOKEN=${FRP_TOKEN}
+      - HTTP_PROXY=${HTTP_PROXY:-socks5://172.17.0.1:9050}
+      - HTTPS_PROXY=${HTTPS_PROXY:-socks5://172.17.0.1:9050}
+      - http_proxy=${http_proxy:-socks5://172.17.0.1:9050}
+      - https_proxy=${https_proxy:-socks5://172.17.0.1:9050}
 
     networks:
       - frp-universe
