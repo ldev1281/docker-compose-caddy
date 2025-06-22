@@ -20,48 +20,52 @@ services:
 
     networks:
       - caddy-universe
-      - caddy-outline
-      - caddy-frp
+      - caddy-private
       - caddy-keycloak
 
-  frp-client:
-    image: ghcr.io/ldev1281/docker-frp:latest
-    container_name: frp-client
+  caddy-socat-frp:
+    image: ghcr.io/ldev1281/docker-socat-socks5h:latest
+    container_name: caddy-socat-frp
     restart: unless-stopped
 
     depends_on:
       - caddy
 
     environment:
-      - FRP_HOST=${FRP_HOST}
-      - FRP_PORT=${FRP_PORT}
-      - FRP_TOKEN=${FRP_TOKEN}
-      - HTTP_PROXY=${HTTP_PROXY:-socks5://172.17.0.1:9050}
-      - HTTPS_PROXY=${HTTPS_PROXY:-socks5://172.17.0.1:9050}
-      - http_proxy=${http_proxy:-socks5://172.17.0.1:9050}
-      - https_proxy=${https_proxy:-socks5://172.17.0.1:9050}
+      LISTEN_PORT: ${FRP_PORT}
+      TARGET_HOST: ${FRP_HOST}
+      TARGET_PORT: ${FRP_PORT}
 
     networks:
-      - frp-universe
-      - caddy-frp
+      - caddy-universe
+      - caddy-private
+
+  caddy-frp-client:
+    image: ghcr.io/ldev1281/docker-frp:latest
+    container_name: caddy-frp-client
+    restart: unless-stopped
+
+    depends_on:
+      - caddy-socat-frp
+
+    environment:
+      - FRP_HOST=caddy-socat-frp
+      - FRP_PORT=${FRP_PORT}
+      - FRP_TOKEN=${FRP_TOKEN}
+
+    networks:
+      - caddy-private
 
 networks:
   caddy-universe:
     name: caddy-universe
     driver: bridge
 
-  caddy-outline:
-    name: caddy-outline
-    external: true
-
-  caddy-frp:
-    name: caddy-frp
-    external: true
+  caddy-private:
+    name: caddy-private
+    driver: bridge
+    internal: true
 
   caddy-keycloak:
     name: caddy-keycloak
     external: true
-
-  frp-universe:
-    name: frp-universe
-    driver: bridge
