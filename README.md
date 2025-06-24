@@ -22,23 +22,32 @@ Key service:
 
 The Caddy container is connected to the `caddy-universe` network for public access. Additional networks (e.g., `caddy-outline`, `caddy-git`) can be attached for private communication with backend services.
 
+**Create the shared Docker network** (if it doesn't already exist):
+
+   ```bash
+   docker network create --driver bridge caddy-keycloak
+   ```
+
+
 ### 3. Configure Caddyfile
 
-The Caddyfile is located at `./vol/caddy/etc/caddy/Caddyfile`.
+The Caddyfile `./vol/caddy/etc/caddy/Caddyfile` is dynamically generated using the environment variables.
 
-#### Example for Adding Outline Reverse Proxy:
+To configure and launch all required services, run the provided script:
 
-```
-outline.example.com {
-    reverse_proxy outline-app:3000
-}
+```bash
+./tools/init.bash
 ```
 
-- Replace `outline.example.com` with your actual domain name.
-- Replace `outline-app` with the container name of your Outline service.
-- Ensure the Outline service is connected to the `caddy-outline` network.
+The script will:
 
-You can add multiple sites by repeating the block for different services.
+- Prompt you to enter configuration values (press `Enter` to accept defaults).
+- Generate secure random secrets automatically.
+- Save all settings to the `.env` file located at the project root.
+
+**Important:**  
+Make sure to securely store your `.env` file locally for future reference or redeployment.
+
 
 ### 4. Start the Caddy Service
 
