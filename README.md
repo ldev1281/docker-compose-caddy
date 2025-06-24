@@ -11,7 +11,7 @@ Clone the project to your server in the `/docker/caddy/` directory:
 ```
 mkdir -p /docker/caddy
 cd /docker/caddy
-git clone https://github.com/jordimock/docker-compose-caddy.git .
+git clone https://github.com/ldev1281/docker-compose-caddy.git .
 ```
 
 ### 2. Review Docker Compose Configuration
