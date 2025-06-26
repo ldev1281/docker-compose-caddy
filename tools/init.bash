@@ -48,6 +48,15 @@ prompt_for_configuration() {
 
     read -p "KEYCLOAK_APP_HOST [${KEYCLOAK_APP_HOST:-keycloak-app}]: " input
     KEYCLOAK_APP_HOST=${input:-${KEYCLOAK_APP_HOST:-keycloak-app}}
+
+    echo ""
+    echo "firefly:"
+
+    read -p "FIREFLY_APP_HOSTNAME [${FIREFLY_APP_HOSTNAME:-firefly.example.com}]: " input
+    FIREFLY_APP_HOSTNAME=${input:-${FIREFLY_APP_HOSTNAME:-firefly.example.com}}
+
+    read -p "FIREFLY_APP_HOST [${FIREFLY_APP_HOST:-firefly-app}]: " input
+    FIREFLY_APP_HOST=${input:-${FIREFLY_APP_HOST:-firefly-app}}
 }
 
 # Display configuration nicely and ask for user confirmation
@@ -61,6 +70,10 @@ confirm_and_save_configuration() {
         "# keycloak"
         "KEYCLOAK_APP_HOSTNAME=${KEYCLOAK_APP_HOSTNAME}"
         "KEYCLOAK_APP_HOST=${KEYCLOAK_APP_HOST}"
+        ""
+        "# firefly"
+        "FIREFLY_APP_HOSTNAME=${FIREFLY_APP_HOSTNAME}"
+        "FIREFLY_APP_HOST=${FIREFLY_APP_HOST}"
         ""
     )
 

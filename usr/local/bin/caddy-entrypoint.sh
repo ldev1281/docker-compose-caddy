@@ -30,6 +30,26 @@ else
     echo "[ ] Skipping Keycloak — KEYCLOAK_APP_HOSTNAME is not set"
 fi
 
+# --- Firefly ---
+if [ -n "$FIREFLY_APP_HOSTNAME" ]; then
+    echo "[+] Generating config for Firefly"
+    echo "# Auto-generated Firefly config" >>/etc/caddy/Caddyfile
+
+    export FIREFLY_APP_HOST="${FIREFLY_APP_HOST:-firefly-app}"
+    export FIREFLY_APP_HTTP_PORT="${FIREFLY_APP_HTTP_PORT:-8080}"
+
+    {
+        echo "${FIREFLY_APP_HOSTNAME} {"
+        echo "    reverse_proxy http://${FIREFLY_APP_HOST}:${FIREFLY_APP_HTTP_PORT}"
+        echo "}"
+
+    } >>/etc/caddy/Caddyfile
+
+    echo "" >>/etc/caddy/Caddyfile
+else
+    echo "[ ] Skipping Firefly — FIREFLY_APP_HOSTNAME is not set"
+fi
+
 # --- Outline example ---
 if [ -n "$OUTLINE_APP_HOSTNAME" ]; then
     echo "[+] Generating config for Outline"
