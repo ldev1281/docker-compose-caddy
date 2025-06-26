@@ -40,7 +40,7 @@ if [ -n "$FIREFLY_APP_HOSTNAME" ]; then
 
     {
         echo "${FIREFLY_APP_HOSTNAME} {"
-        echo "    reverse_proxy http://${FIREFLY_APP_HOST}:${FIREFLY_APP_HTTP_PORT}"
+        echo "    reverse_proxy ${FIREFLY_APP_HOST}:${FIREFLY_APP_HTTP_PORT}"
         echo "}"
 
     } >>/etc/caddy/Caddyfile
