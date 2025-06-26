@@ -70,5 +70,5 @@ networks:
     external: true
 
   caddy-firefly:
-    name: caddy-keycloak
+    name: caddy-firefly
     external: true
