@@ -13,16 +13,12 @@ if [ -n "$KEYCLOAK_APP_HOSTNAME" ]; then
 
     export KEYCLOAK_APP_HOST="${KEYCLOAK_APP_HOST:-keycloak-app}"
     export KEYCLOAK_APP_HTTP_PORT="${KEYCLOAK_APP_HTTP_PORT:-8080}"
-    export KEYCLOAK_APP_HTTPS_PORT="${KEYCLOAK_APP_HTTPS_PORT:-8443}"
 
     {
-        echo "http://${KEYCLOAK_APP_HOSTNAME} {"
+        echo "${KEYCLOAK_APP_HOSTNAME} {"
         echo "    reverse_proxy ${KEYCLOAK_APP_HOST}:${KEYCLOAK_APP_HTTP_PORT}"
         echo "}"
 
-        echo "https://${KEYCLOAK_APP_HOSTNAME} {"
-        echo "    reverse_proxy ${KEYCLOAK_APP_HOST}:${KEYCLOAK_APP_HTTPS_PORT}"
-        echo "}"
     } >>/etc/caddy/Caddyfile
 
     echo "" >>/etc/caddy/Caddyfile
