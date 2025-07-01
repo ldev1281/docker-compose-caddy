@@ -46,6 +46,26 @@ else
     echo "[ ] Skipping Firefly — FIREFLY_APP_HOSTNAME is not set"
 fi
 
+# --- Wekan ---
+if [ -n "$WEKAN_APP_HOSTNAME" ]; then
+    echo "[+] Generating config for Wekan"
+    echo "# Auto-generated Wekan config" >>/etc/caddy/Caddyfile
+
+    export WEKAN_APP_HOST="${WEKAN_APP_HOST:-wekan-app}"
+    export WEKAN_APP_HTTP_PORT="${WEKAN_APP_HTTP_PORT:-80}"
+
+    {
+        echo "${WEKAN_APP_HOSTNAME} {"
+        echo "    reverse_proxy ${WEKAN_APP_HOST}:${WEKAN_APP_HTTP_PORT}"
+        echo "}"
+
+    } >>/etc/caddy/Caddyfile
+
+    echo "" >>/etc/caddy/Caddyfile
+else
+    echo "[ ] Skipping Wekan — WEKAN_APP_HOSTNAME is not set"
+fi
+
 # --- Outline example ---
 if [ -n "$OUTLINE_APP_HOSTNAME" ]; then
     echo "[+] Generating config for Outline"

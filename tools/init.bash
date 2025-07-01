@@ -57,6 +57,15 @@ prompt_for_configuration() {
 
     read -p "FIREFLY_APP_HOST [${FIREFLY_APP_HOST:-firefly-app}]: " input
     FIREFLY_APP_HOST=${input:-${FIREFLY_APP_HOST:-firefly-app}}
+
+    echo ""
+    echo "wekan:"
+
+    read -p "WEKAN_APP_HOSTNAME [${WEKAN_APP_HOSTNAME:-wekan.example.com}]: " input
+    WEKAN_APP_HOSTNAME=${input:-${WEKAN_APP_HOSTNAME:-wekan.example.com}}
+
+    read -p "WEKAN_APP_HOST [${WEKAN_APP_HOST:-wekan-app}]: " input
+    WEKAN_APP_HOST=${input:-${WEKAN_APP_HOST:-wekan-app}}
 }
 
 # Display configuration nicely and ask for user confirmation
@@ -74,6 +83,10 @@ confirm_and_save_configuration() {
         "# firefly"
         "FIREFLY_APP_HOSTNAME=${FIREFLY_APP_HOSTNAME}"
         "FIREFLY_APP_HOST=${FIREFLY_APP_HOST}"
+        ""
+        "# wekan"
+        "WEKAN_APP_HOSTNAME=${WEKAN_APP_HOSTNAME}"
+        "WEKAN_APP_HOST=${WEKAN_APP_HOST}"
         ""
     )
 

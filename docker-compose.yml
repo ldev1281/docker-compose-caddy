@@ -10,6 +10,8 @@ services:
       - KEYCLOAK_APP_HOST=${KEYCLOAK_APP_HOST}
       - FIREFLY_APP_HOSTNAME=${FIREFLY_APP_HOSTNAME}
       - FIREFLY_APP_HOST=${FIREFLY_APP_HOST}
+      - WEKAN_APP_HOSTNAME=${WEKAN_APP_HOSTNAME}
+      - WEKAN_APP_HOST=${WEKAN_APP_HOST}
 
     volumes:
       - ./usr/local/bin/caddy-entrypoint.sh:/usr/local/bin/caddy-entrypoint.sh:ro
@@ -21,6 +23,7 @@ services:
       - caddy-private
       - caddy-keycloak
       - caddy-firefly
+      - caddy-wekan
 
   caddy-socat-frp:
     image: ghcr.io/ldev1281/docker-socat-socks5h:latest
@@ -71,4 +74,8 @@ networks:
 
   caddy-firefly:
     name: caddy-firefly
+    external: true
+
+  caddy-wekan:
+    name: caddy-wekan
     external: true
