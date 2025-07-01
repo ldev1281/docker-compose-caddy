@@ -52,7 +52,7 @@ if [ -n "$WEKAN_APP_HOSTNAME" ]; then
     echo "# Auto-generated Wekan config" >>/etc/caddy/Caddyfile
 
     export WEKAN_APP_HOST="${WEKAN_APP_HOST:-wekan-app}"
-    export WEKAN_APP_HTTP_PORT="${WEKAN_APP_HTTP_PORT:-80}"
+    export WEKAN_APP_HTTP_PORT="${WEKAN_APP_HTTP_PORT:-8080}"
 
     {
         echo "${WEKAN_APP_HOSTNAME} {"
