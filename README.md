@@ -20,18 +20,35 @@ Key service:
 
 - `caddy`: A lightweight, extensible web server acting as a reverse proxy with automatic HTTPS.
 
-The Caddy container is connected to the `caddy-universe` network for public access. Additional networks (e.g., `caddy-outline`, `caddy-git`) can be attached for private communication with backend services.
+The Caddy container is connected to the `caddy-universe` network for public access. Additional networks (e.g., `caddy-keycloak`, `caddy-firefly`, `caddy-wekan`) are used for private communication with backend services.
 
-**Create the shared Docker network** (if it doesn't already exist):
+**Create required external Docker networks** (if they do not already exist):
 
-   ```bash
-   docker network create --driver bridge caddy-keycloak
+```bash
+docker network create --driver bridge caddy-keycloak
+docker network create --driver bridge caddy-firefly
+docker network create --driver bridge caddy-wekan
    ```
 
 
-### 3. Configure Caddyfile
+### 3. Configure and Start the Application
 
 The Caddyfile `./vol/caddy/etc/caddy/Caddyfile` is dynamically generated using the environment variables.
+
+Configuration Variables:
+
+| Variable Name             | Description                                       | Default Value          |
+|---------------------------|---------------------------------------------------|------------------------|
+| `FRP_HOST`                | Remote FRP (reverse proxy) host address           | `.onion`               |
+| `FRP_PORT`                | Port number for FRP server                        | `7000`                 |
+| `FRP_TOKEN`               | Shared secret used for FRP authentication         | *(use token form frps)*     |
+| `KEYCLOAK_APP_HOSTNAME`   | Public domain name for Keycloak                   | `auth.example.com`     |
+| `KEYCLOAK_APP_HOST`       | Internal container hostname for Keycloak service  | `keycloak-app`         |
+| `FIREFLY_APP_HOSTNAME`    | Public domain name for Firefly III                | `firefly.example.com`  |
+| `FIREFLY_APP_HOST`        | Internal container hostname for Firefly service   | `firefly-app`          |
+| `WEKAN_APP_HOSTNAME`      | Public domain name for Wekan                      | `wekan.example.com`    |
+| `WEKAN_APP_HOST`          | Internal container hostname for Wekan service     | `wekan-app`            |
+
 
 To configure and launch all required services, run the provided script:
 
@@ -71,6 +88,7 @@ Caddy stores ACME certificates, account keys, and other important data in the fo
 
 - `./vol/caddy/data:/data` – ACME certificates and keys
 - `./vol/caddy/config:/config` – Runtime configuration and state
+- `./usr/local/bin/caddy-entrypoint.sh` – Custom entrypoint script
 
 Make sure these directories are backed up to avoid losing certificates and configuration.
 
@@ -81,6 +99,12 @@ Make sure these directories are backed up to avoid losing certificates and confi
 ```
 /docker/caddy/
 ├── docker-compose.yml
+├── tools/
+│   └── init.bash
+├── usr/
+│   └── local/
+│       └── bin/
+│           └── caddy-entrypoint.sh
 ├── vol/
 │   └── caddy/
 │       ├── data/
@@ -88,5 +112,10 @@ Make sure these directories are backed up to avoid losing certificates and confi
 │       └── etc/
 │           └── caddy/
 │               └── Caddyfile
+└── .env
 ```
 
+
+## License
+
+Licensed under the Prostokvashino License. See [LICENSE](LICENSE) for details.
