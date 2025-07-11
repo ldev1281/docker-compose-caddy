@@ -1,10 +1,10 @@
 services:
   caddy:
     image: caddy:latest
-    entrypoint: ["/usr/local/bin/caddy-entrypoint.sh"]
     container_name: caddy
     restart: unless-stopped
-
+    cap_add:
+      - NET_ADMIN
     environment:
       KEYCLOAK_APP_HOSTNAME: ${KEYCLOAK_APP_HOSTNAME}
       KEYCLOAK_APP_HOST: ${KEYCLOAK_APP_HOST}
@@ -18,7 +18,6 @@ services:
       SOCKS5H_PASSWORD: ${CADDY_OUTPUT_SOCKS5H_PASSWORD:-}
 
     volumes:
-      - ./usr/local/bin/caddy-entrypoint.sh:/usr/local/bin/caddy-entrypoint.sh:ro
       - ./vol/caddy/data:/data
       - ./vol/caddy/config:/config
 
