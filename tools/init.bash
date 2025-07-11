@@ -66,6 +66,21 @@ prompt_for_configuration() {
 
     read -p "WEKAN_APP_HOST [${WEKAN_APP_HOST:-wekan-app}]: " input
     WEKAN_APP_HOST=${input:-${WEKAN_APP_HOST:-wekan-app}}
+
+    echo ""
+    echo "caddy + socks5h proxy:"
+
+    read -p "CADDY_OUTPUT_SOCKS5H_HOST [${CADDY_OUTPUT_SOCKS5H_HOST:-}]: " input
+    CADDY_OUTPUT_SOCKS5H_HOST=${input:-${CADDY_OUTPUT_SOCKS5H_HOST:-}}
+
+    read -p "CADDY_OUTPUT_SOCKS5H_PORT [${CADDY_OUTPUT_SOCKS5H_PORT:-1080}]: " input
+    CADDY_OUTPUT_SOCKS5H_PORT=${input:-${CADDY_OUTPUT_SOCKS5H_PORT:-1080}}
+
+    read -p "CADDY_OUTPUT_SOCKS5H_USER [${CADDY_OUTPUT_SOCKS5H_USER:-}]: " input
+    CADDY_OUTPUT_SOCKS5H_USER=${input:-${CADDY_OUTPUT_SOCKS5H_USER:-}}
+
+    read -p "CADDY_OUTPUT_SOCKS5H_PASSWORD [${CADDY_OUTPUT_SOCKS5H_PASSWORD:-}]: " input
+    CADDY_OUTPUT_SOCKS5H_PASSWORD=${input:-${CADDY_OUTPUT_SOCKS5H_PASSWORD:-}}
 }
 
 # Display configuration nicely and ask for user confirmation
@@ -88,6 +103,12 @@ confirm_and_save_configuration() {
         "WEKAN_APP_HOSTNAME=${WEKAN_APP_HOSTNAME}"
         "WEKAN_APP_HOST=${WEKAN_APP_HOST}"
         ""
+        "# caddy + socks5h"
+        "CADDY_OUTPUT_SOCKS5H_HOST=${CADDY_OUTPUT_SOCKS5H_HOST}"
+        "CADDY_OUTPUT_SOCKS5H_PORT=${CADDY_OUTPUT_SOCKS5H_PORT}"
+        "CADDY_OUTPUT_SOCKS5H_USER=${CADDY_OUTPUT_SOCKS5H_USER}"
+        "CADDY_OUTPUT_SOCKS5H_PASSWORD=${CADDY_OUTPUT_SOCKS5H_PASSWORD}"
+        ""
     )
 
     echo ""
@@ -101,7 +122,6 @@ confirm_and_save_configuration() {
     echo "-----------------------------------------------------"
     echo ""
 
-    #
     read -p "Proceed with this configuration? (y/n): " CONFIRM
     echo ""
     if [[ "$CONFIRM" != "y" ]]; then
@@ -110,7 +130,6 @@ confirm_and_save_configuration() {
         exit 1
     fi
 
-    #
     printf "%s\n" "${CONFIG_LINES[@]}" >"$ENV_FILE"
     echo ".env file saved to $ENV_FILE"
     echo ""

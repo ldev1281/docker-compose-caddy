@@ -37,17 +37,23 @@ The Caddyfile `./vol/caddy/etc/caddy/Caddyfile` is dynamically generated using t
 
 Configuration Variables:
 
-| Variable Name             | Description                                       | Default Value          |
-|---------------------------|---------------------------------------------------|------------------------|
-| `FRP_HOST`                | Remote FRP (reverse proxy) host address           | `.onion`               |
-| `FRP_PORT`                | Port number for FRP server                        | `7000`                 |
-| `FRP_TOKEN`               | Shared secret used for FRP authentication         | *(use token form frps)*     |
-| `KEYCLOAK_APP_HOSTNAME`   | Public domain name for Keycloak                   | `auth.example.com`     |
-| `KEYCLOAK_APP_HOST`       | Internal container hostname for Keycloak service  | `keycloak-app`         |
-| `FIREFLY_APP_HOSTNAME`    | Public domain name for Firefly III                | `firefly.example.com`  |
-| `FIREFLY_APP_HOST`        | Internal container hostname for Firefly service   | `firefly-app`          |
-| `WEKAN_APP_HOSTNAME`      | Public domain name for Wekan                      | `wekan.example.com`    |
-| `WEKAN_APP_HOST`          | Internal container hostname for Wekan service     | `wekan-app`            |
+### Configuration Variables
+
+| Variable Name                | Description                                                    | Default Value          |
+|-----------------------------|----------------------------------------------------------------|------------------------|
+| `FRP_HOST`                  | Remote FRP (reverse proxy) host address                        | `.onion`               |
+| `FRP_PORT`                  | Port number for FRP server                                     | `7000`                 |
+| `FRP_TOKEN`                 | Shared secret used for FRP authentication                      | *(use token from frps)*|
+| `KEYCLOAK_APP_HOSTNAME`     | Public domain name for Keycloak                                | `auth.example.com`     |
+| `KEYCLOAK_APP_HOST`         | Internal container hostname for Keycloak service               | `keycloak-app`         |
+| `FIREFLY_APP_HOSTNAME`      | Public domain name for Firefly III                             | `firefly.example.com`  |
+| `FIREFLY_APP_HOST`          | Internal container hostname for Firefly service                | `firefly-app`          |
+| `WEKAN_APP_HOSTNAME`        | Public domain name for Wekan                                   | `wekan.example.com`    |
+| `WEKAN_APP_HOST`            | Internal container hostname for Wekan service                  | `wekan-app`            |
+| `CADDY_OUTPUT_SOCKS5H_HOST` | SOCKS5H proxy hostname or IP used for outgoing Caddy traffic   | *(empty)*              |
+| `CADDY_OUTPUT_SOCKS5H_PORT` | Port number of the SOCKS5H proxy                               | `1080`                 |
+| `CADDY_OUTPUT_SOCKS5H_USER` | Username for SOCKS5H proxy authentication (if required)        | *(empty)*              |
+| `CADDY_OUTPUT_SOCKS5H_PASSWORD` | Password for SOCKS5H proxy authentication (if required)    | *(empty)*              |
 
 
 To configure and launch all required services, run the provided script:
